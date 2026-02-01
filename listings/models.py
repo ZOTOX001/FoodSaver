@@ -18,6 +18,7 @@ class Listing(models.Model):
     donor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='listings')
     food_type = models.CharField(max_length=20, choices=FOOD_TYPES)
     quantity_kg = models.FloatField()
+    servings = models.IntegerField(default=1, help_text="Approximate number of people this can serve")
     description = models.TextField()
     expiry_time = models.DateTimeField()
     pickup_instructions = models.TextField(blank=True)

@@ -2,17 +2,9 @@
 
 {% block content %}
 <div class="space-y-8 p-4 md:p-8 lg:p-10">
-    <!-- Page Heading & Impact Summary -->
-    <div class="flex flex-wrap justify-between items-end gap-4">
-        <div class="space-y-1">
-            <h2 class="text-3xl md:text-4xl font-black tracking-tight">Donor Dashboard</h2>
-            <p class="text-[#4c9a4c] text-base">Welcome, {{ user.username }}.</p>
-        </div>
-        <a href="{% url 'admin_dashboard' %}"
-            class="bg-[#e7f3e7] dark:bg-[#1a2e1a] hover:bg-primary/20 text-[#0d1b0d] dark:text-white px-5 py-2.5 rounded-lg text-sm font-bold transition-all flex items-center gap-2 no-underline">
-            <span class="material-symbols-outlined text-lg">leaderboard</span>
-            Global Leaderboard
-        </a>
+    <!-- Page Heading -->
+    <div class="md:hidden mb-6">
+        <h1 class="text-2xl font-black text-gray-900 dark:text-white">Dashboard</h1>
     </div>
 
     <!-- Impact Stats (Moved from Sidebar) -->
@@ -116,10 +108,9 @@
                             <span class="material-symbols-outlined text-lg">check_circle</span>
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm font-medium">Claimed by <span class="font-bold">{{
-                                    claim.claimant.username }}</span></p>
-                            <p class="text-xs opacity-60">{{ claim.listing.get_food_type_display }} • {{
-                                claim.status }}</p>
+                            <p class="text-sm font-medium">Claimed by <span
+                                    class="font-bold">{{claim.claimant.username}}</span></p>
+                            <p class="text-xs opacity-60">{{claim.listing.get_food_type_display}} • {{claim.status}}</p>
                         </div>
                         <div>
                             {% if claim.status == 'pending' %}
@@ -156,35 +147,6 @@
                     <!-- Simulated Map Background -->
                     <div class="absolute inset-0 grayscale opacity-40 dark:invert"
                         style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAx2nZOiwdgCz8sFUGI5BFSiEnpkmswBx9d-wcnLWNNoTVIll4htNugI6Ktyd9FMNPTO18Q3XsLUC8hQO6sehvTZV4cU89Tzm7tWbVJ0UdxQqb98r2ldSwhDMH_h7Fuo4BSiaE8b0Iawv3SWYT_FTCXSBtkakznfIjsumiiGyDqwBxqg90SiRXgaQyuRZNUOHscFpCrxKKCn91Qpe-FkqHNfObANjKOCYiuFuOKMpySGEEnhNstfAUpj-4w9O-zsW-CuWaHiS9YDOc'); background-size: cover; background-position: center;">
-                    </div>
-
-                    <!-- Static Markers for Demo -->
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                        <div class="relative flex flex-col items-center">
-                            <div class="bg-primary text-[#0d1b0d] p-1 rounded-lg shadow-xl animate-bounce">
-                                <span class="material-symbols-outlined text-3xl">restaurant</span>
-                            </div>
-                            <div
-                                class="bg-white dark:bg-background-dark px-2 py-1 rounded shadow text-[10px] font-bold mt-1">
-                                You</div>
-                        </div>
-                    </div>
-                    <div class="absolute top-1/3 left-1/4 group cursor-pointer" title="Feeding India">
-                        <div
-                            class="bg-red-500 text-white p-1 rounded-full shadow-lg hover:scale-110 transition-transform">
-                            <span class="material-symbols-outlined text-sm">person_heart</span>
-                        </div>
-                    </div>
-
-                    <!-- Legend -->
-                    <div
-                        class="absolute bottom-4 left-4 p-4 bg-[#e7f3e7] dark:bg-[#1a2e1a] rounded-lg flex items-center justify-between text-xs gap-4 mx-4">
-                        <div class="flex gap-4">
-                            <span class="flex items-center gap-1"><span class="size-2 rounded-full bg-primary"></span>
-                                Your Location</span>
-                            <span class="flex items-center gap-1"><span class="size-2 rounded-full bg-red-500"></span>
-                                Urgent Request</span>
-                        </div>
                     </div>
                 </div>
             </div>

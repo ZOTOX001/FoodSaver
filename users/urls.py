@@ -9,4 +9,5 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('directory/', views.ngo_directory, name='ngo_directory'),
     path('profile/<int:user_id>/', views.profile_view, name='profile_view'),
+    path('connected-ngos/', views.connected_ngos, name='connected_ngos'),
 ]

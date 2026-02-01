@@ -19,8 +19,7 @@ def dashboard(request):
     if request.user.role == 'donor':
         return redirect('donor_dashboard')
     elif request.user.role == 'claimant':
-        # return redirect('claimant_dashboard') # To be implemented
-        return render(request, 'users/dashboard_placeholder.html', {'role': 'Claimant'})
+        return redirect('claimant_dashboard')
     elif request.user.role == 'admin':
         return redirect('/admin/')
     return render(request, 'users/dashboard_placeholder.html', {'role': 'Unknown'})
@@ -46,3 +45,22 @@ def profile_view(request, user_id):
         'profile_user': user_profile,
         'stats': impact_stats
     })
+
+@login_required
+def connected_ngos(request):
+    if request.user.role != 'donor':
+        return redirect('dashboard')
+    
+    # logic: Find NGOs (Claimants) who have successfully claimed from this donor
+    # This involves a join: Claim -> Listing -> Donor
+    from listings.models import Claim
+    
+    # Get distinct claimants who have claims on this donor's listings
+    connected_claimants_ids = Claim.objects.filter(
+        listing__donor=request.user, 
+        status__in=['approved', 'completed']
+    ).values_list('claimant_id', flat=True).distinct()
+    
+    connected_ngos_list = User.objects.filter(id__in=connected_claimants_ids)
+    
+    return render(request, 'users/connected_ngos.html', {'ngos': connected_ngos_list})

@@ -65,22 +65,34 @@
 
             <nav class="hidden md:flex items-center gap-8">
                 {% if user.is_authenticated %}
-                <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
-                    href="{% url 'dashboard' %}">Dashboard</a>
-
                 {% if user.role == 'donor' %}
                 <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
+                    href="{% url 'donor_dashboard' %}">Dashboard</a>
+                <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
                     href="{% url 'create_listing' %}">Post Food</a>
+                <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
+                    href="{% url 'leaderboard' %}">Leaderboard</a>
+                <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
+                    href="{% url 'connected_ngos' %}">Connected NGOs</a>
+                <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
+                    href="{% url 'analytics_dashboard' %}">AI Analytics</a>
+
                 {% elif user.role == 'claimant' %}
                 <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
-                    href="{% url 'claimant_dashboard' %}">Find Food</a>
-                {% endif %}
+                    href="{% url 'claimant_dashboard' %}">Dashboard</a>
+                <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
+                    href="{% url 'my_claims' %}">My Claims</a>
+                <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
+                    href="{% url 'history' %}">History</a>
 
+                {% else %}
+                <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
+                    href="{% url 'dashboard' %}">Dashboard</a>
                 <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
                     href="{% url 'ngo_directory' %}">Community</a>
-
                 <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"
                     href="{% url 'leaderboard' %}">Impact & Stats</a>
+                {% endif %}
 
                 {% else %}
                 <a class="text-[#0d1b0d] dark:text-slate-200 text-sm font-semibold hover:text-primary transition-colors"

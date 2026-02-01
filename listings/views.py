@@ -31,9 +31,9 @@ def donor_dashboard(request):
 def claim_listing(request, listing_id):
     listing = get_object_or_404(Listing, id=listing_id)
     if request.method == 'POST':
+        # Create claim with default status 'pending'
+        # Do NOT mark listing as 'claimed' yet. Wait for donor approval.
         Claim.objects.create(listing=listing, claimant=request.user)
-        listing.status = 'claimed'
-        listing.save()
         return redirect('claimant_dashboard')
     return render(request, 'listings/claim_confirm.html', {'listing': listing})
 
@@ -43,6 +43,15 @@ def approve_claim(request, claim_id):
     if request.user == claim.listing.donor:
         claim.status = 'approved'
         claim.save()
+        
+        # Now mark the listing as claimed so it disappears from the dashboard
+        listing = claim.listing
+        listing.status = 'claimed'
+        listing.save()
+        
+        # Optional: Reject other pending claims for this listing?
+        # For simple MVP, we leave them or logic to handle multiple claims later.
+        
     return redirect('donor_dashboard')
 
 @login_required
@@ -62,7 +71,17 @@ def claimant_dashboard(request):
     
     # Get active listings for list view
     listings = Listing.objects.filter(status='active').order_by('expiry_time')
-    return render(request, 'listings/claimant_dashboard.html', {'listings': listings})
+    
+    # Get IDs of listings this user has already claimed (pending)
+    my_pending_claims_ids = Claim.objects.filter(
+        claimant=request.user, 
+        status='pending'
+    ).values_list('listing_id', flat=True)
+
+    return render(request, 'listings/claimant_dashboard.html', {
+        'listings': listings, 
+        'pending_claim_ids': my_pending_claims_ids
+    })
 
 from django.http import JsonResponse
 
@@ -80,3 +99,22 @@ def listing_api(request):
             'donor_name': listing.donor.username,
         })
     return JsonResponse({'listings': data})
+
+@login_required
+def my_claims(request):
+    if request.user.role != 'claimant':
+        return redirect('dashboard')
+    
+    # Active claims (pending or approved)
+    claims = Claim.objects.filter(claimant=request.user, status__in=['pending', 'approved']).order_by('-claimed_at')
+    return render(request, 'listings/my_claims.html', {'claims': claims})
+
+@login_required
+def history_view(request):
+    if request.user.role != 'claimant':
+        return redirect('dashboard')
+        
+    # Past claims (completed or rejected)
+    claims = Claim.objects.filter(claimant=request.user, status__in=['completed', 'rejected']).order_by('-claimed_at')
+    return render(request, 'listings/history.html', {'claims': claims})
+

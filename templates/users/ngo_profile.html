@@ -2,7 +2,6 @@
 
 {% block content %}
 <div class="bg-slate-50 dark:bg-black min-h-screen pb-20">
-    <!-- Profile Header / Banner -->
     <div class="h-64 bg-[#0d1b0d] relative overflow-hidden">
         <div class="absolute inset-0 opacity-20"
             style="background-image: url('https://www.transparenttextures.com/patterns/cubes.png');"></div>
@@ -12,21 +11,21 @@
 
     <div class="max-w-7xl mx-auto px-6 relative -mt-32">
         <div class="flex flex-col md:flex-row items-end gap-8 mb-8">
-            <!-- Avatar -->
             <div
                 class="size-40 rounded-3xl bg-white dark:bg-[#1a2e1a] border-4 border-white dark:border-black shadow-2xl flex items-center justify-center text-6xl font-black text-primary overflow-hidden relative z-10">
                 {% if profile_user.username %}
-                {{ profile_user.username|slice:":1"|upper }}
+                {% with initial=profile_user.username|slice:":1"|upper %}
+                {{initial}}
+                {% endwith %}
                 {% else %}
                 <span class="material-symbols-outlined text-6xl">diversity_3</span>
                 {% endif %}
             </div>
 
-            <!-- Info -->
             <div class="flex-1 pb-4">
                 <div class="flex flex-col md:flex-row md:items-center gap-4 mb-2">
                     <h1 class="text-4xl font-black text-[#0d1b0d] dark:text-white flex items-center gap-2">
-                        {{ profile_user.username }}
+                        {{profile_user.username}}
                         {% if profile_user.is_verified %}
                         <span class="material-symbols-outlined text-blue-500 text-2xl"
                             title="Verified Organization">verified</span>
@@ -35,19 +34,19 @@
                     <div class="flex gap-2">
                         {% for badge in stats.badges %}
                         <span
-                            class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold uppercase tracking-wide border border-yellow-200">{{
-                            badge }}</span>
+                            class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold uppercase tracking-wide border border-yellow-200">{{badge}}</span>
                         {% endfor %}
                     </div>
                 </div>
                 <p class="text-slate-500 dark:text-slate-400 font-medium text-lg flex items-center gap-2">
                     <span class="material-symbols-outlined text-sm">location_on</span>
-                    {{ profile_user.profile.location|default:"Mumbai, India" }} • Joined {{
-                    profile_user.date_joined|date:"F Y" }}
+                    {% with loc=profile_user.profile.location|default:"Mumbai, India"
+                    joined=profile_user.date_joined|date:"F Y" %}
+                    {{loc}} • Joined {{joined}}
+                    {% endwith %}
                 </p>
             </div>
 
-            <!-- Actions -->
             <div class="pb-4 flex gap-3">
                 <button
                     class="px-6 py-3 bg-primary text-[#0d1b0d] font-bold rounded-xl shadow-lg shadow-primary/20 hover:scale-105 transition-transform flex items-center gap-2">
@@ -62,25 +61,21 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Left Column: About & Stats -->
             <div class="space-y-8">
-                <!-- Stats Grid -->
                 <div class="grid grid-cols-2 gap-4">
                     <div
                         class="bg-white dark:bg-[#1a2e1a] border border-[#cfe7cf] dark:border-[#2a3d2a] p-6 rounded-2xl shadow-sm">
-                        <div class="text-3xl font-black text-[#0d1b0d] dark:text-white mb-1">{{ stats.meals_served }}+
+                        <div class="text-3xl font-black text-[#0d1b0d] dark:text-white mb-1">{{stats.meals_served}}+
                         </div>
                         <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Meals Served</div>
                     </div>
                     <div
                         class="bg-white dark:bg-[#1a2e1a] border border-[#cfe7cf] dark:border-[#2a3d2a] p-6 rounded-2xl shadow-sm">
-                        <div class="text-3xl font-black text-[#0d1b0d] dark:text-white mb-1">{{ stats.volunteers }}
-                        </div>
+                        <div class="text-3xl font-black text-[#0d1b0d] dark:text-white mb-1">{{stats.volunteers}}</div>
                         <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Volunteers</div>
                     </div>
                 </div>
 
-                <!-- About Card -->
                 <div
                     class="bg-white dark:bg-[#1a2e1a] border border-[#cfe7cf] dark:border-[#2a3d2a] p-8 rounded-2xl shadow-sm">
                     <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
@@ -108,9 +103,7 @@
                 </div>
             </div>
 
-            <!-- Right Column: Activity & Requests -->
             <div class="lg:col-span-2 space-y-8">
-                <!-- Urgent Request (Mock) -->
                 <div
                     class="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 p-6 rounded-2xl flex items-start gap-4">
                     <div class="p-3 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl">
@@ -128,11 +121,9 @@
                     </div>
                 </div>
 
-                <!-- Recent Activity Feed -->
                 <div>
                     <h3 class="font-bold text-xl mb-6">Recent Impact</h3>
                     <div class="space-y-4">
-                        <!-- Activity Item 1 -->
                         <div
                             class="bg-white dark:bg-[#1a2e1a] border border-[#cfe7cf] dark:border-[#2a3d2a] p-6 rounded-2xl shadow-sm flex gap-4">
                             <div class="flex flex-col items-center gap-1">
@@ -153,13 +144,12 @@
                                         class="font-bold text-[#0d1b0d] dark:text-white">@SpiceGardenResto</span> for
                                     the generous donation. The food was distributed at St. Jude's Shelter.</p>
                                 <div class="mt-4 flex gap-2">
-                                    <div class="h-24 w-32 bg-slate-100 rounded-lg"></div> <!-- Placeholder for image -->
+                                    <div class="h-24 w-32 bg-slate-100 rounded-lg"></div>
                                     <div class="h-24 w-32 bg-slate-100 rounded-lg"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Activity Item 2 -->
                         <div
                             class="bg-white dark:bg-[#1a2e1a] border border-[#cfe7cf] dark:border-[#2a3d2a] p-6 rounded-2xl shadow-sm flex gap-4">
                             <div class="flex flex-col items-center gap-1">

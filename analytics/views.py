@@ -61,3 +61,24 @@ from foodsaver.ai_core import get_surplus_prediction
 def predict_surplus(request):
     data = get_surplus_prediction()
     return JsonResponse({'message': data['prediction']})
+
+
+@login_required
+def analytics_dashboard(request):
+    if request.user.role != 'donor':
+        return redirect('dashboard')
+        
+    # Simple analytics for the donor
+    listings = Listing.objects.filter(donor=request.user)
+    total_listings = listings.count()
+    total_quantity = listings.aggregate(Sum('quantity_kg'))['quantity_kg__sum'] or 0
+    
+    # AI Prediction (Mock or Real)
+    prediction = get_surplus_prediction()
+    
+    context = {
+        'total_listings': total_listings,
+        'total_quantity': total_quantity,
+        'prediction': prediction,
+    }
+    return render(request, 'analytics/analytics_dashboard.html', context)

@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="space-y-12 py-10 px-6 max-w-[1280px] mx-auto">
-
     <!-- Hero Section -->
     <div class="text-center space-y-4">
         <h1 class="text-4xl md:text-5xl font-black text-[#0d1b0d] dark:text-white tracking-tight">
@@ -34,7 +33,7 @@
                         Collective Saved</h3>
                 </div>
                 <div class="flex items-baseline gap-1">
-                    <span class="text-4xl font-black text-[#0d1b0d] dark:text-white">{{ total_kg|floatformat:0 }}</span>
+                    <span class="text-4xl font-black text-[#0d1b0d] dark:text-white">{{total_kg|floatformat:0}}</span>
                     <span class="text-xl font-bold text-primary">KG</span>
                 </div>
             </div>
@@ -52,7 +51,7 @@
                         Donors</h3>
                 </div>
                 <div class="flex items-baseline gap-1">
-                    <span class="text-4xl font-black text-[#0d1b0d] dark:text-white">{{ active_donors }}+</span>
+                    <span class="text-4xl font-black text-[#0d1b0d] dark:text-white">{{active_donors}}+</span>
                 </div>
             </div>
         </div>
@@ -69,31 +68,9 @@
                         Served</h3>
                 </div>
                 <div class="flex items-baseline gap-1">
-                    <span class="text-4xl font-black text-[#0d1b0d] dark:text-white">{{ meals_served }}+</span>
+                    <span class="text-4xl font-black text-[#0d1b0d] dark:text-white">{{meals_served}}+</span>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Filters (Visual only for now) -->
-    <div
-        class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white dark:bg-[#1a2e1a] border border-[#cfe7cf] dark:border-[#2a3d2a] p-2 rounded-xl">
-        <div class="flex gap-2 p-1 bg-slate-100 dark:bg-black/20 rounded-lg">
-            <button
-                class="px-4 py-2 bg-white dark:bg-[#2a3d2a] shadow-sm rounded-md text-sm font-bold text-[#0d1b0d] dark:text-white">All
-                Entities</button>
-            <button
-                class="px-4 py-2 text-slate-500 hover:text-[#0d1b0d] dark:hover:text-white text-sm font-semibold transition-colors">Restaurants</button>
-            <button
-                class="px-4 py-2 text-slate-500 hover:text-[#0d1b0d] dark:hover:text-white text-sm font-semibold transition-colors">Universities</button>
-        </div>
-        <div class="flex gap-2 p-1 bg-slate-100 dark:bg-black/20 rounded-lg">
-            <button
-                class="px-4 py-2 text-slate-500 hover:text-[#0d1b0d] dark:hover:text-white text-sm font-semibold transition-colors">Weekly</button>
-            <button
-                class="px-4 py-2 bg-white dark:bg-[#2a3d2a] shadow-sm rounded-md text-sm font-bold text-[#0d1b0d] dark:text-white">Monthly</button>
-            <button
-                class="px-4 py-2 text-slate-500 hover:text-[#0d1b0d] dark:hover:text-white text-sm font-semibold transition-colors">All-time</button>
         </div>
     </div>
 
@@ -105,18 +82,17 @@
             <div class="relative mb-4">
                 <div
                     class="size-20 rounded-full border-4 border-[#C0C0C0] overflow-hidden bg-white shadow-lg flex items-center justify-center text-xl font-bold text-slate-400">
-                    {{ donors.1.username|slice:":1"|upper }}
+                    {{donors.1.username|slice:":1"|upper}}
                 </div>
                 <div
                     class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#C0C0C0] text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-sm">
-                    2ND
-                </div>
+                    2ND</div>
             </div>
             <div
                 class="bg-white dark:bg-[#1a2e1a] border border-[#cfe7cf] dark:border-[#2a3d2a] p-6 rounded-2xl shadow-sm text-center w-full max-w-sm hover:-translate-y-1 transition-transform duration-300">
-                <h3 class="font-bold text-lg mb-1 truncate">{{ donors.1.username }}</h3>
-                <p class="text-slate-500 text-xs mb-3">{{ donors.1.role|title }}</p>
-                <div class="text-2xl font-black text-primary">{{ donors.1.total_donated_kg }} KG</div>
+                <h3 class="font-bold text-lg mb-1 truncate">{{donors.1.username}}</h3>
+                <p class="text-slate-500 text-xs mb-3">{{donors.1.role|title}}</p>
+                <div class="text-2xl font-black text-primary">{{donors.1.total_donated_kg}} KG</div>
                 <div class="w-full bg-slate-100 dark:bg-black/20 h-1.5 rounded-full mt-3 overflow-hidden">
                     <div class="bg-[#C0C0C0] h-full w-[80%]"></div>
                 </div>
@@ -131,29 +107,21 @@
                 <div class="absolute -top-10 left-1/2 -translate-x-1/2 text-4xl text-yellow-400 drop-shadow-md">👑</div>
                 <div
                     class="size-28 rounded-full border-4 border-[#FFD700] overflow-hidden bg-white shadow-xl flex items-center justify-center text-3xl font-bold text-slate-400 ring-4 ring-yellow-400/20">
-                    {{ donors.0.username|slice:":1"|upper }}
+                    {{donors.0.username|slice:":1"|upper}}
                 </div>
                 <div
                     class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-[#FFD700] text-[#0d1b0d] text-sm font-black px-3 py-1 rounded-full shadow-md">
-                    CHAMPION
-                </div>
+                    CHAMPION</div>
             </div>
             <div
                 class="bg-white dark:bg-[#1a2e1a] border-2 border-primary/30 p-8 rounded-2xl shadow-lg text-center w-full max-w-sm z-10 hover:-translate-y-1 transition-transform duration-300 relative overflow-hidden">
                 <div
                     class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent">
                 </div>
-                <h3 class="font-black text-xl mb-1 truncate">{{ donors.0.username }}</h3>
+                <h3 class="font-black text-xl mb-1 truncate">{{donors.0.username}}</h3>
                 <p class="text-primary font-bold text-xs uppercase tracking-wider mb-4">Impact Leader</p>
-                <div class="text-4xl font-black text-primary mb-2">{{ donors.0.total_donated_kg }} <span
+                <div class="text-4xl font-black text-primary mb-2">{{donors.0.total_donated_kg}} <span
                         class="text-lg text-[#0d1b0d] dark:text-white">KG</span></div>
-                <div class="flex justify-center gap-1">
-                    <span class="material-symbols-outlined text-yellow-400 text-sm">star</span>
-                    <span class="material-symbols-outlined text-yellow-400 text-sm">star</span>
-                    <span class="material-symbols-outlined text-yellow-400 text-sm">star</span>
-                    <span class="material-symbols-outlined text-yellow-400 text-sm">star</span>
-                    <span class="material-symbols-outlined text-yellow-400 text-sm">star</span>
-                </div>
             </div>
         </div>
         {% endif %}
@@ -164,18 +132,17 @@
             <div class="relative mb-4">
                 <div
                     class="size-20 rounded-full border-4 border-[#CD7F32] overflow-hidden bg-white shadow-lg flex items-center justify-center text-xl font-bold text-slate-400">
-                    {{ donors.2.username|slice:":1"|upper }}
+                    {{donors.2.username|slice:":1"|upper}}
                 </div>
                 <div
                     class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#CD7F32] text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-sm">
-                    3RD
-                </div>
+                    3RD</div>
             </div>
             <div
                 class="bg-white dark:bg-[#1a2e1a] border border-[#cfe7cf] dark:border-[#2a3d2a] p-6 rounded-2xl shadow-sm text-center w-full max-w-sm hover:-translate-y-1 transition-transform duration-300">
-                <h3 class="font-bold text-lg mb-1 truncate">{{ donors.2.username }}</h3>
-                <p class="text-slate-500 text-xs mb-3">{{ donors.2.role|title }}</p>
-                <div class="text-2xl font-black text-primary">{{ donors.2.total_donated_kg }} KG</div>
+                <h3 class="font-bold text-lg mb-1 truncate">{{donors.2.username}}</h3>
+                <p class="text-slate-500 text-xs mb-3">{{donors.2.role|title}}</p>
+                <div class="text-2xl font-black text-primary">{{donors.2.total_donated_kg}} KG</div>
                 <div class="w-full bg-slate-100 dark:bg-black/20 h-1.5 rounded-full mt-3 overflow-hidden">
                     <div class="bg-[#CD7F32] h-full w-[60%]"></div>
                 </div>
@@ -208,22 +175,22 @@
                 <tbody class="divide-y divide-[#cfe7cf] dark:divide-[#2a3d2a]">
                     {% for donor in donors %}
                     <tr class="hover:bg-[#f6f8f6] dark:hover:bg-white/5 transition-colors">
-                        <td class="px-6 py-4 font-black text-slate-400">#{{ forloop.counter }}</td>
+                        <td class="px-6 py-4 font-black text-slate-400">#{{forloop.counter}}</td>
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
                                 <div
                                     class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
-                                    {{ donor.username|slice:":1"|upper }}
+                                    {{donor.username|slice:":1"|upper}}
                                 </div>
                                 <div>
-                                    <div class="font-bold text-[#0d1b0d] dark:text-white">{{ donor.username }}</div>
-                                    <div class="text-xs text-slate-500">{{ donor.profile.location|default:"Mumbai" }} •
-                                        {{ donor.role|title }}</div>
+                                    <div class="font-bold text-[#0d1b0d] dark:text-white">{{donor.username}}</div>
+                                    <div class="text-xs text-slate-500">{{donor.profile.location|default:"Mumbai"}} •
+                                        {{donor.role|title}}</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-center font-bold text-[#0d1b0d] dark:text-white">{{
-                            donor.total_donated_kg|default:0 }} KG</td>
+                        <td class="px-6 py-4 text-center font-bold text-[#0d1b0d] dark:text-white">
+                            {{donor.total_donated_kg|default:0}} KG</td>
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-2">
                                 <div class="w-24 bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
@@ -242,28 +209,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
-    </div>
-
-    <!-- Call to Action -->
-    <div class="bg-primary rounded-3xl p-8 md:p-12 relative overflow-hidden group">
-        <div
-            class="absolute top-0 right-0 w-64 h-64 bg-white/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-white/30 transition-colors">
-        </div>
-        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div class="text-center md:text-left">
-                <h2 class="text-3xl font-black text-[#0d1b0d] mb-2">Want to see your name here?</h2>
-                <p class="text-[#0d1b0d]/80 font-medium max-w-lg">Join the movement today and start donating surplus
-                    food to those in need. Every kilogram counts.</p>
-            </div>
-            <div class="flex gap-4">
-                <a href="{% url 'register' %}"
-                    class="px-8 py-3.5 bg-[#0d1b0d] text-white font-bold rounded-xl hover:scale-105 transition-transform shadow-xl">Get
-                    Started</a>
-                <a href="/#how-it-works"
-                    class="px-8 py-3.5 bg-white/20 backdrop-blur-md text-[#0d1b0d] font-bold rounded-xl hover:bg-white/30 transition-colors">How
-                    It Works</a>
-            </div>
         </div>
     </div>
 </div>

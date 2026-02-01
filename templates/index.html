@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <!-- Hero Section -->
@@ -35,7 +36,7 @@
             <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
                 <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent z-10"></div>
                 <img class="w-full h-full object-cover" alt="People distributing food to community members in India"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhQiulYe19vK7IBLMWsL38Xb9p0lZ6RHYHNwme95u4o3ucoT1MCfbpXinyOFX8-9R_UbhlUxRNMu9S-nusIHY3jUnF_Kwiccoye9IFY5bRuSz_U5wY-n_IBOuG0cvn3Gg8oe1y9mD3uPVu4hONJMp2OpNr0neucKfgZOyNsycEs2de6hNI8QHP76Tm9dVg46LG5XdBfFnRk7oVmXuq50KrOIpSxvuXlOBXgBv3Cph-F1I3ViosqBIucTpuyLmsIc9BliDIkT__jn8" />
+                    src="{% static 'images/food_sharing_hero_v2.png' %}" />
             </div>
         </div>
     </div>
