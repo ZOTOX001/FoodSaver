@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative px-6 py-12 lg:py-20 @container">
+    <div class="flex flex-col gap-10 lg:flex-row items-center">
+        <div class="w-full lg:w-1/2 flex flex-col gap-8">
+            <div class="flex flex-col gap-4">
+                <span
+                    class="inline-flex items-center px-3 py-1 rounded-full bg-primary/20 text-green-800 dark:text-primary text-xs font-bold uppercase tracking-wider w-fit">
+                    Fighting Food Waste in India
+                </span>
+                <h1 class="text-[#0d1b0d] dark:text-white text-4xl lg:text-6xl font-black leading-[1.1] tracking-tight">
+                    Ending Hunger, One <span class="text-primary">Surplus Meal</span> at a Time.
+                </h1>
+                <p class="text-slate-600 dark:text-slate-400 text-lg lg:text-xl font-normal max-w-xl">
+                    Connecting restaurants and institutions with NGOs to reduce food waste across India. Join the
+                    movement to redistribute fresh surplus food and serve those in need.
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-4">
+                <a href="{% url 'login' %}"
+                    class="flex flex-1 sm:flex-none min-w-[180px] cursor-pointer items-center justify-center gap-2 rounded-xl h-14 px-8 bg-primary text-background-dark text-lg font-extrabold hover:shadow-xl hover:shadow-primary/30 transition-all no-underline">
+                    <span class="material-symbols-outlined">volunteer_activism</span>
+                    Donate Food
+                </a>
+                <a href="{% url 'login' %}"
+                    class="flex flex-1 sm:flex-none min-w-[180px] cursor-pointer items-center justify-center gap-2 rounded-xl h-14 px-8 bg-white dark:bg-white/5 text-[#0d1b0d] dark:text-white border-2 border-primary/20 text-lg font-extrabold hover:bg-primary/5 transition-all no-underline">
+                    <span class="material-symbols-outlined">restaurant</span>
+                    Claim Food
+                </a>
+            </div>
+        </div>
+        <div class="w-full lg:w-1/2">
+            <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent z-10"></div>
+                <img class="w-full h-full object-cover" alt="People distributing food to community members in India"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhQiulYe19vK7IBLMWsL38Xb9p0lZ6RHYHNwme95u4o3ucoT1MCfbpXinyOFX8-9R_UbhlUxRNMu9S-nusIHY3jUnF_Kwiccoye9IFY5bRuSz_U5wY-n_IBOuG0cvn3Gg8oe1y9mD3uPVu4hONJMp2OpNr0neucKfgZOyNsycEs2de6hNI8QHP76Tm9dVg46LG5XdBfFnRk7oVmXuq50KrOIpSxvuXlOBXgBv3Cph-F1I3ViosqBIucTpuyLmsIc9BliDIkT__jn8" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Impact Statistics -->
+<section class="px-6 py-12" id="impact">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div
+            class="flex flex-col gap-3 rounded-2xl p-8 border border-primary/20 bg-white dark:bg-white/5 shadow-sm hover:border-primary/50 transition-colors">
+            <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined">lunch_dining</span>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-widest">Meals Served
+            </p>
+            <p class="text-[#0d1b0d] dark:text-white text-4xl font-black leading-tight">10M+</p>
+            <div class="flex items-center gap-1 text-primary text-sm font-bold">
+                <span class="material-symbols-outlined text-sm">trending_up</span>
+                <span>+15% this month</span>
+            </div>
+        </div>
+        <div
+            class="flex flex-col gap-3 rounded-2xl p-8 border border-primary/20 bg-white dark:bg-white/5 shadow-sm hover:border-primary/50 transition-colors">
+            <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined">storefront</span>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-widest">Partner
+                Entities</p>
+            <p class="text-[#0d1b0d] dark:text-white text-4xl font-black leading-tight">450+</p>
+            <div class="flex items-center gap-1 text-primary text-sm font-bold">
+                <span class="material-symbols-outlined text-sm">trending_up</span>
+                <span>+8% expansion</span>
+            </div>
+        </div>
+        <div
+            class="flex flex-col gap-3 rounded-2xl p-8 border border-primary/20 bg-white dark:bg-white/5 shadow-sm hover:border-primary/50 transition-colors">
+            <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined">verified_user</span>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-widest">Verified NGOs
+            </p>
+            <p class="text-[#0d1b0d] dark:text-white text-4xl font-black leading-tight">120+</p>
+            <div class="flex items-center gap-1 text-primary text-sm font-bold">
+                <span class="material-symbols-outlined text-sm">trending_up</span>
+                <span>+12% capacity</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="px-6 py-20" id="how-it-works">
+    <div class="flex flex-col items-center text-center mb-16 gap-4">
+        <h2 class="text-[#0d1b0d] dark:text-white text-3xl lg:text-4xl font-black tracking-tight">Our Simple 3-Step
+            Process</h2>
+        <div class="h-1.5 w-24 bg-primary rounded-full"></div>
+        <p class="text-slate-600 dark:text-slate-400 max-w-2xl text-lg">We use technology to bridge the gap between food
+            waste and hunger in real-time, ensuring efficiency and transparency.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div
+            class="group relative flex flex-col items-center p-8 rounded-2xl bg-white dark:bg-white/5 border border-transparent hover:border-primary/30 transition-all">
+            <div
+                class="mb-6 size-20 rounded-3xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                <span class="material-symbols-outlined text-4xl">cloud_upload</span>
+            </div>
+            <h3 class="text-xl font-bold mb-3 dark:text-white">1. List Surplus</h3>
+            <p class="text-center text-slate-500 dark:text-slate-400">Donors upload surplus food details like quantity,
+                type, and expiry in seconds through our mobile app or web platform.</p>
+        </div>
+        <div
+            class="group relative flex flex-col items-center p-8 rounded-2xl bg-white dark:bg-white/5 border border-transparent hover:border-primary/30 transition-all">
+            <div
+                class="mb-6 size-20 rounded-3xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                <span class="material-symbols-outlined text-4xl">hub</span>
+            </div>
+            <h3 class="text-xl font-bold mb-3 dark:text-white">2. AI Matchmaking</h3>
+            <p class="text-center text-slate-500 dark:text-slate-400">Our algorithm identifies the nearest verified NGO
+                or student hub that can accept the donation, ensuring minimal travel time.</p>
+        </div>
+        <div
+            class="group relative flex flex-col items-center p-8 rounded-2xl bg-white dark:bg-white/5 border border-transparent hover:border-primary/30 transition-all">
+            <div
+                class="mb-6 size-20 rounded-3xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                <span class="material-symbols-outlined text-4xl">local_shipping</span>
+            </div>
+            <h3 class="text-xl font-bold mb-3 dark:text-white">3. Rapid Pickup</h3>
+            <p class="text-center text-slate-500 dark:text-slate-400">Verified logistics partners or NGO volunteers pick
+                up the food following strict safety protocols to ensure it reaches the needy fresh.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Section with Callout -->
+<section class="px-6 pb-20">
+    <div
+        class="bg-background-dark text-white rounded-[2rem] p-8 lg:p-16 flex flex-col lg:flex-row items-center gap-12 overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full"></div>
+        <div class="w-full lg:w-1/2 flex flex-col gap-6 z-10">
+            <h2 class="text-3xl lg:text-5xl font-black leading-tight">Join India's Largest Sustainability Network</h2>
+            <p class="text-slate-400 text-lg">Whether you are a five-star hotel with surplus banquet food or a local NGO
+                looking to feed a community, our platform is designed for you.</p>
+            <ul class="space-y-4">
+                <li class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary">check_circle</span>
+                    <span>FSSAI Compliant Food Safety Guidelines</span>
+                </li>
+                <li class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary">check_circle</span>
+                    <span>Real-time tracking of every donation</span>
+                </li>
+                <li class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary">check_circle</span>
+                    <span>Tax benefit certificates for institutional donors</span>
+                </li>
+            </ul>
+        </div>
+        <div class="w-full lg:w-1/2 grid grid-cols-2 gap-4 z-10">
+            <div class="aspect-square rounded-2xl overflow-hidden shadow-lg transform translate-y-8">
+                <img class="w-full h-full object-cover" data-alt="Volunteer packing fresh vegetables for donation"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuqtckkb-tRGe_I1xYSJZndEm7XASKfbONZnFiEbg7kp5qYBrRJtd8qQoLDf4BDlXmFqzXZUrDu-hJEhiwIOt9eTo3Q9NuU8ywuWchE7dgFNkUL9VDu72MTyvjgQLzlITxjTIo6BEwrZxVt1OlvJVOGrZW_98M_dz0ne01UXuXp5NVVaCiY0c2nfAokmSqKNMMFf2YXumYtG_K3EkLtIQ-hS_YK_l67u28AlqDmT6GEwnsdqWRC2wojhYWslZxPU1tTlhMuAC2yw8" />
+            </div>
+            <div class="aspect-square rounded-2xl overflow-hidden shadow-lg">
+                <img class="w-full h-full object-cover" data-alt="Cheerful kitchen staff preparing food donation"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5Q7CleVQmdxLiSD4kGUQYh2HWrjNfy4gYRV-uPZqHV2jstFQ7gBB28GZJbyky5yIXl-vuu_6DCyf3p9-x0ajLvyFPHBfYFwF2PohSgMoiiT31dgZ0agnkKi65jZ7KxvIkgQy6FOGhDmCTKixNKoU2-Jeo8SBVYFDnPt8XY_6MIrY6m_ATjprn4ESnmmQE8an38_AbpwVhnMdylrQXg2FlqiL16FDXc0KY_DeWYY2VVf3Sr5YP491eZZ86pT3rbscfGmtkJAtFHm8" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="px-6 py-20 bg-white/50 dark:bg-transparent rounded-3xl mb-20" id="testimonials">
+    <div class="flex flex-col items-center text-center mb-16">
+        <h2 class="text-[#0d1b0d] dark:text-white text-3xl font-black mb-4">Voices of Change</h2>
+        <p class="text-slate-600 dark:text-slate-400">Hear from our community of donors and claimants.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="p-10 rounded-3xl bg-white dark:bg-white/5 border border-primary/10 shadow-sm relative">
+            <span class="material-symbols-outlined text-5xl text-primary/30 absolute top-8 right-10">format_quote</span>
+            <p class="text-lg italic text-[#0d1b0d] dark:text-slate-200 mb-8 leading-relaxed">
+                "Food Saver has revolutionized how we handle banquet leftovers. Earlier, we hated wasting food;
+                now, we know it reaches children at the nearby shelter within 45 minutes."
+            </p>
+            <div class="flex items-center gap-4">
+                <div class="size-12 rounded-full overflow-hidden">
+                    <img class="w-full h-full object-cover" data-alt="Executive Chef portrait"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvGB0aKo66_e55rRzKbhD-mBZMFm1Yp2F5zmBNbirP6luDJfq85R5tKfnswAl8ga556KqpVBBa8ngfhibn1RoavCUXmPAWhausJ9CmkSn8vA6vGKZcRQNXT7z44n49qF00X_ysqPvjO4LqXsKqPiL8oThbFUuEMeD__CIR0vdW985HTteIRjW6fWf0jT0ZUNZyesu4nzN7mn-kmkRWUM-eIIPpwPJQTk2tAbEIS0qMVC8i9QwALmtZiJDCiX21UXpKf9iPCCfv3P4" />
+                </div>
+                <div>
+                    <p class="font-bold dark:text-white">Rajesh Malhotra</p>
+                    <p class="text-sm text-slate-500">Executive Chef, The Grand Plaza</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-10 rounded-3xl bg-white dark:bg-white/5 border border-primary/10 shadow-sm relative">
+            <span class="material-symbols-outlined text-5xl text-primary/30 absolute top-8 right-10">format_quote</span>
+            <p class="text-lg italic text-[#0d1b0d] dark:text-slate-200 mb-8 leading-relaxed">
+                "As an NGO coordinator, the uncertainty of daily food supply was our biggest challenge. This platform
+                gives us a predictable way to secure fresh meals for our 200+ beneficiaries."
+            </p>
+            <div class="flex items-center gap-4">
+                <div class="size-12 rounded-full overflow-hidden">
+                    <img class="w-full h-full object-cover" data-alt="NGO worker portrait"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkaBgmtALukKhh0vZCc8PPr2WbgKDw8DGE5KgZmzzwlO7vAWfpuzVgOUdleDg_ujsEtbKPjOLrn8RMkdFxonSyzlHQ5pqfBe1FXT4TB0kToMZ_C31EcvMjYXJZePn0dxOT6429XobvAJuksHHj6cP_E5u97Y5kryV4ROjFJ7V97KanCPIvxaQkiG8jeWgKUR6an2wrCyAOGnVgDl09Rnj_k4HywpXLW2gBeJA3Ivxhdhw38CSew08HQnV5KAtLEX2yTI98bXzyEOw" />
+                </div>
+                <div>
+                    <p class="font-bold dark:text-white">Ananya Deshmukh</p>
+                    <p class="text-sm text-slate-500">Founder, Hope Foundation India</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

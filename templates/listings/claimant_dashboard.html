@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="h-[calc(100vh-64px)] w-full flex flex-col bg-background-light dark:bg-black">
+
+    <!-- Filters Bar -->
+    <div
+        class="bg-white dark:bg-[#1a2e1a] border-b border-[#e7f3e7] dark:border-white/10 px-6 py-3 flex items-center gap-6 shadow-sm z-20">
+        <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Filters</span>
+            <div class="h-4 w-px bg-slate-200 dark:bg-slate-700"></div>
+        </div>
+
+        <div class="flex gap-2">
+            <button
+                class="filter-btn active px-4 py-1.5 rounded-full text-xs font-bold bg-primary text-[#0d1b0d] shadow-lg shadow-primary/20 transition-all hover:scale-105"
+                data-filter="all">
+                All Food
+            </button>
+            <button
+                class="filter-btn px-4 py-1.5 rounded-full text-xs font-bold bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-primary hover:text-primary transition-all flex items-center gap-1"
+                data-filter="veg">
+                <span class="material-symbols-outlined text-[14px] text-green-600">eco</span> Vegetarian
+            </button>
+            <button
+                class="filter-btn px-4 py-1.5 rounded-full text-xs font-bold bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-primary hover:text-primary transition-all flex items-center gap-1"
+                data-filter="non-veg">
+                <span class="material-symbols-outlined text-[14px] text-red-500">kebab_dining</span> Non-Veg
+            </button>
+        </div>
+
+        <div class="flex-1 h-4 border-l border-slate-200 dark:border-slate-700 mx-2"></div>
+
+        <div class="flex items-center gap-4 min-w-[300px]">
+            <span class="text-xs font-bold text-slate-500">Radius: <span id="radius-val"
+                    class="text-primary">5km</span></span>
+            <input type="range" class="flex-1 accent-primary h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer"
+                min="1" max="15" value="5" oninput="updateRadius(this.value)">
+        </div>
+
+        <div class="flex items-center gap-2 ml-auto">
+            <div
+                class="flex items-center gap-1.5 px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-[10px] font-bold uppercase tracking-wider animate-pulse">
+                <span class="w-2 h-2 rounded-full bg-green-500"></span> Live Updates
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Split -->
+    <div class="flex-1 flex overflow-hidden relative">
+        <!-- Map Area -->
+        <div class="flex-1 relative bg-slate-100 dark:bg-zinc-900">
+            <!-- Canvas Map -->
+            <canvas id="foodMap" class="absolute inset-0 w-full h-full cursor-pointer focus:outline-none"></canvas>
+
+            <!-- Map Controls -->
+            <div class="absolute bottom-8 right-8 flex flex-col gap-2">
+                <button
+                    class="size-10 bg-white dark:bg-zinc-800 rounded-xl shadow-xl flex items-center justify-center text-slate-700 dark:text-white hover:bg-slate-50 dark:hover:bg-zinc-700 border border-white/20"
+                    onclick="zoomIn()">
+                    <span class="material-symbols-outlined">add</span>
+                </button>
+                <button
+                    class="size-10 bg-white dark:bg-zinc-800 rounded-xl shadow-xl flex items-center justify-center text-slate-700 dark:text-white hover:bg-slate-50 dark:hover:bg-zinc-700 border border-white/20"
+                    onclick="zoomOut()">
+                    <span class="material-symbols-outlined">remove</span>
+                </button>
+                <button
+                    class="size-10 bg-white dark:bg-zinc-800 rounded-xl shadow-xl flex items-center justify-center text-slate-700 dark:text-white hover:bg-slate-50 dark:hover:bg-zinc-700 border border-white/20 mt-2"
+                    onclick="recenter()">
+                    <span class="material-symbols-outlined">my_location</span>
+                </button>
+            </div>
+
+            <!-- Location Marker (Static for visual) -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                <div
+                    class="size-32 bg-primary/10 rounded-full animate-ping absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                </div>
+                <div class="size-4 bg-primary border-2 border-white rounded-full shadow-lg relative z-10"></div>
+                <div
+                    class="absolute -top-8 left-1/2 -translate-x-1/2 bg-white dark:bg-zinc-800 px-3 py-1 rounded-lg text-xs font-bold shadow-lg whitespace-nowrap">
+                    You are here</div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar Listings -->
+        <div
+            class="w-[400px] bg-white dark:bg-[#122212] border-l border-[#e7f3e7] dark:border-white/10 flex flex-col z-10 shadow-xl">
+            <div
+                class="p-4 bg-slate-50 dark:bg-white/5 border-b border-[#e7f3e7] dark:border-white/10 flex justify-between items-center">
+                <div>
+                    <h3 class="font-black text-[#0d1b0d] dark:text-white text-lg">Available Nearby</h3>
+                    <p class="text-xs text-slate-500">Sorted by proximity</p>
+                </div>
+                <div class="px-2 py-1 bg-[#e7f3e7] dark:bg-white/10 rounded-md text-xs font-bold">{{ listings|length }}
+                    active</div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-4 space-y-4" id="listings-container">
+                {% for listing in listings %}
+                <div class="listing-card group bg-white dark:bg-zinc-900 border border-slate-100 dark:border-white/10 rounded-xl p-4 hover:border-primary hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
+                    data-type="{{ listing.food_type }}"
+                    data-veg="{% if listing.food_type == 'packaged' %}non-veg{% else %}veg{% endif %}">
+                    <!-- Mock Logic for Veg/Non-veg -->
+
+                    <div class="flex justify-between items-start mb-3 relative z-10">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                {% if listing.food_type == 'cooked' or listing.food_type == 'raw' %}
+                                <span
+                                    class="px-2 py-0.5 rounded flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800">
+                                    <span class="material-symbols-outlined text-[10px]">eco</span> Vegetarian
+                                </span>
+                                {% else %}
+                                <span
+                                    class="px-2 py-0.5 rounded flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-900/30">
+                                    <span class="material-symbols-outlined text-[10px]">kebab_dining</span> Non-Veg
+                                </span>
+                                {% endif %}
+                                <span class="text-[10px] text-slate-400 font-medium">• 0.8 km away</span>
+                            </div>
+                            <h4 class="font-bold text-[#0d1b0d] dark:text-white text-base leading-tight mb-1">{{
+                                listing.description|truncatechars:35 }}</h4>
+                            <p class="text-xs text-slate-500">{{ listing.donor.username }} • {{ listing.quantity_kg }}
+                                KG</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xl font-black text-red-500 leading-none">{{ listing.expiry_time|time:"H:i"
+                                }}</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Expires In</div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <a href="{% url 'claim_listing' listing.id %}"
+                        class="flex items-center justify-center gap-2 w-full py-3 bg-primary text-[#0d1b0d] font-bold rounded-lg shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all mt-2">
+                        <span class="material-symbols-outlined text-lg">handshake</span>
+                        Claim & Coordinate
+                    </a>
+                </div>
+                {% empty %}
+                <div class="flex flex-col items-center justify-center py-20 text-center opacity-50">
+                    <span class="material-symbols-outlined text-4xl mb-2">radar</span>
+                    <p class="font-bold">No food found nearby.</p>
+                    <p class="text-xs">Try increasing the search radius.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Canvas Map Logic (Enhanced)
+    const canvas = document.getElementById('foodMap');
+    const ctx = canvas.getContext('2d');
+    let listings = [];
+    let scale = 1;
+    let radius = 5; // Default 5km
+
+    // Mock Data loader (Replace with real API if needed, for now we parse DOM or use JSON view)
+    // We'll use the URL if available, else standard
+    {% if listings %}
+    // We scrape basic data from template for visual demo if API not ready, 
+    // but better to fetch.
+    fetch('{% url "listing_api" %}')
+        .then(res => res.json())
+        .then(data => {
+            listings = data.listings;
+            resizeCanvas();
+        })
+        .catch(err => console.log('API Error, using fallback visualization'));
+    {% endif %}
+
+    function resizeCanvas() {
+        if (!canvas.parentElement) return;
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+        drawMap();
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    function zoomIn() { scale *= 1.2; drawMap(); }
+    function zoomOut() { scale /= 1.2; drawMap(); }
+    function recenter() { scale = 1; drawMap(); }
+
+    function updateRadius(val) {
+        document.getElementById('radius-val').innerText = val + "km";
+        radius = parseInt(val);
+        drawMap();
+    }
+
+    function drawMap() {
+        if (!canvas.width) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+
+        // Draw Grid Background
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        const gridSize = 50 * scale;
+
+        ctx.beginPath();
+        for (let x = cx % gridSize; x < canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
+        for (let y = cy % gridSize; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); }
+        ctx.stroke();
+
+        // Draw Radius Circle
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(19, 236, 19, 0.05)';
+        ctx.strokeStyle = '#13ec13';
+        ctx.lineWidth = 2;
+        // 1km = 20px * scale (arbitrary scale for visual)
+        const pixelRadius = radius * 40 * scale;
+        ctx.arc(cx, cy, pixelRadius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        // Draw Listings
+        listings.forEach((l, index) => {
+            // Pseudo-random position based on ID
+            const angle = (l.id * 137.5) * (Math.PI / 180);
+            const dist = (50 + (l.id * 15) % (radius * 40)) * scale; // Keep within approx radius
+
+            const x = cx + Math.cos(angle) * dist;
+            const y = cy + Math.sin(angle) * dist;
+
+            // Marker
+            ctx.beginPath();
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = 10;
+            ctx.arc(x, y, 12, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // Icon color
+            ctx.beginPath();
+            ctx.fillStyle = (l.food_type === 'packaged') ? '#ef4444' : '#13ec13';
+            ctx.arc(x, y, 6, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    }
+
+    // Filter Logic
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.listing-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // UI Toggle
+            filterBtns.forEach(b => {
+                b.classList.remove('bg-primary', 'text-[#0d1b0d]', 'active');
+                b.classList.add('bg-white', 'dark:bg-white/5', 'hover:border-primary', 'hover:text-primary');
+            });
+            btn.classList.remove('bg-white', 'dark:bg-white/5', 'hover:border-primary', 'hover:text-primary');
+            btn.classList.add('bg-primary', 'text-[#0d1b0d]', 'active');
+
+            const filter = btn.dataset.filter;
+
+            // Filter Cards
+            cards.forEach(card => {
+                const vegType = card.dataset.veg; // 'veg' or 'non-veg'
+                if (filter === 'all') {
+                    card.classList.remove('hidden');
+                } else if (filter === 'veg' && vegType === 'veg') {
+                    card.classList.remove('hidden');
+                } else if (filter === 'non-veg' && vegType === 'non-veg') {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

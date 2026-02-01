@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="w-full max-w-2xl space-y-8">
+        <!-- Logo Header -->
+        <div class="flex items-center justify-center gap-3 mb-8">
+            <div class="bg-primary p-2 rounded-lg text-white">
+                <span class="material-symbols-outlined block">eco</span>
+            </div>
+            <h1 class="text-[#0d1b0d] dark:text-white text-2xl font-bold tracking-tight">Food Saver</h1>
+        </div>
+
+        <div
+            class="bg-white dark:bg-zinc-900 rounded-xl shadow-2xl overflow-hidden border border-[#e7f3e7] dark:border-white/10">
+            <!-- Form Header & Role Toggle -->
+            <div class="p-8 pb-0 text-center">
+                <h2 class="text-[#0d1b0d] dark:text-white text-2xl font-bold leading-tight">Create Account</h2>
+                <p class="text-zinc-500 dark:text-zinc-400 text-sm mt-2 mb-6">Choose your role to get started</p>
+
+                <!-- Role Toggle -->
+                <div class="flex p-1 bg-zinc-100 dark:bg-zinc-800 rounded-xl mb-6 relative">
+                    <button type="button" onclick="setRole('donor')" id="btn-donor"
+                        class="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold transition-all shadow-sm bg-white dark:bg-zinc-700 text-primary">
+                        <span class="material-symbols-outlined">volunteer_activism</span>
+                        Donor
+                    </button>
+                    <button type="button" onclick="setRole('claimant')" id="btn-claimant"
+                        class="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold transition-all text-zinc-500 hover:text-zinc-700 dark:text-zinc-400">
+                        <span class="material-symbols-outlined">restaurant</span>
+                        Claimant
+                    </button>
+                </div>
+            </div>
+
+            <!-- Error Messages -->
+            {% if form.errors %}
+            <div class="mx-8 p-4 rounded-md bg-red-50 text-red-700 text-sm">
+                <p class="font-bold mb-1">Please correct the errors below:</p>
+                <ul class="list-disc pl-4 space-y-1">
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <form method="post" class="p-8 space-y-6">
+                {% csrf_token %}
+
+                <!-- Hidden Role Field -->
+                <select name="role" id="id_role" class="hidden">
+                    <option value="donor" selected>Donor</option>
+                    <option value="claimant">Claimant</option>
+                </select>
+
+                <!-- Step 1: Account Info -->
+                <div class="space-y-4">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Account Credentials</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-xs font-bold text-[#0d1b0d] dark:text-zinc-300 ml-1">Username</label>
+                            <div class="relative">
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">person</span>
+                                <input type="text" name="username" required id="id_username"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#cfe7cf] dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm"
+                                    placeholder="Choose a username">
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-bold text-[#0d1b0d] dark:text-zinc-300 ml-1">Email</label>
+                            <div class="relative">
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">mail</span>
+                                <input type="email" name="email" required id="id_email"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#cfe7cf] dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm"
+                                    placeholder="name@example.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-xs font-bold text-[#0d1b0d] dark:text-zinc-300 ml-1">Password</label>
+                            <div class="relative">
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">lock</span>
+                                <input type="password" name="password1" required id="id_password1"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#cfe7cf] dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm"
+                                    placeholder="••••••••">
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-bold text-[#0d1b0d] dark:text-zinc-300 ml-1">Confirm
+                                Password</label>
+                            <div class="relative">
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">lock_reset</span>
+                                <input type="password" name="password2" required id="id_password2"
+                                    class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#cfe7cf] dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm"
+                                    placeholder="••••••••">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-zinc-100 dark:border-zinc-800 my-6">
+
+                <!-- Step 2: Entity Details -->
+                <div class="space-y-4">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-400">Organization Details</h3>
+
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-[#0d1b0d] dark:text-zinc-300 ml-1">Institution / NGO
+                            Name</label>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">business</span>
+                            <input type="text" name="institution_name" required id="id_institution_name"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#cfe7cf] dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm"
+                                placeholder="e.g. Grand Plaza Hotel or Hope Foundation">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-[#0d1b0d] dark:text-zinc-300 ml-1">Location /
+                            Address</label>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">location_on</span>
+                            <input type="text" name="address" required id="id_address"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#cfe7cf] dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm"
+                                placeholder="Full street address (City, State, Zip)">
+                        </div>
+                    </div>
+
+                    <!-- Conditional Fields -->
+                    <div id="field-restaurant-license" class="space-y-1 animate-fade-in">
+                        <label class="text-xs font-bold text-[#0d1b0d] dark:text-zinc-300 ml-1">Restaurant License No.
+                            (FSSAI)</label>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">verified</span>
+                            <input type="text" name="restaurant_license" id="id_restaurant_license"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#cfe7cf] dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm"
+                                placeholder="Required for Donors">
+                        </div>
+                    </div>
+
+                    <div id="field-ngo-registration" class="space-y-1 hidden animate-fade-in">
+                        <label class="text-xs font-bold text-[#0d1b0d] dark:text-zinc-300 ml-1">NGO Registration
+                            No.</label>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">volunteer_activism</span>
+                            <input type="text" name="ngo_registration" id="id_ngo_registration"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[#cfe7cf] dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm"
+                                placeholder="Required for Claimants">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hidden Lat/Long (can be implemented later with Maps API) -->
+                <input type="hidden" name="latitude" id="id_latitude" value="0.0">
+                <input type="hidden" name="longitude" id="id_longitude" value="0.0">
+
+                <button type="submit"
+                    class="w-full h-12 flex items-center justify-center gap-2 bg-primary hover:bg-[#11d411] text-[#0d1b0d] font-bold rounded-lg transition-all shadow-lg shadow-primary/20 mt-4">
+                    <span>Create Account</span>
+                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                </button>
+            </form>
+
+            <div class="py-6 border-t border-[#e7f3e7] dark:border-zinc-800 text-center bg-gray-50 dark:bg-zinc-800/50">
+                <p class="text-zinc-500 dark:text-zinc-400 text-sm">
+                    Already have an account?
+                    <a class="text-primary font-bold hover:underline ml-1" href="{% url 'login' %}">Login</a>
+                </p>
+            </div>
+        </div>
+
+        <p class="text-zinc-500 text-xs text-center">
+            © 2024 Food Saver. Making sustainability a reality.
+        </p>
+    </div>
+</div>
+
+<script>
+    function setRole(role) {
+        // Update hidden input
+        document.getElementById('id_role').value = role;
+
+        // Update Toggle Buttons
+        const btnDonor = document.getElementById('btn-donor');
+        const btnClaimant = document.getElementById('btn-claimant');
+
+        if (role === 'donor') {
+            btnDonor.className = "flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold transition-all shadow-sm bg-white dark:bg-zinc-700 text-primary";
+            btnClaimant.className = "flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold transition-all text-zinc-500 hover:text-zinc-700 dark:text-zinc-400";
+
+            // Show/Hide Fields
+            document.getElementById('field-restaurant-license').classList.remove('hidden');
+            document.getElementById('field-ngo-registration').classList.add('hidden');
+        } else {
+            btnClaimant.className = "flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold transition-all shadow-sm bg-white dark:bg-zinc-700 text-primary";
+            btnDonor.className = "flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold transition-all text-zinc-500 hover:text-zinc-700 dark:text-zinc-400";
+
+            // Show/Hide Fields
+            document.getElementById('field-restaurant-license').classList.add('hidden');
+            document.getElementById('field-ngo-registration').classList.remove('hidden');
+        }
+    }
+</script>
+
+<style>
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}
