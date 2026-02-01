@@ -22,47 +22,55 @@ def donor_dashboard(request):
          return redirect('dashboard')
          
     listings = Listing.objects.filter(donor=request.user).order_by('-created_at')
-    # Fetch claims for these listings
-    claims = Claim.objects.filter(listing__in=listings).order_by('-claimed_at')
     
-    return render(request, 'listings/donor_dashboard.html', {'listings': listings, 'claims': claims})
+    # Split claims into Pending and History
+    pending_claims = Claim.objects.filter(listing__in=listings, status='pending').order_by('-claimed_at')
+    # History includes completed, rejected, and approved (if any legacy exist)
+    history_claims = Claim.objects.filter(listing__in=listings, status__in=['completed', 'rejected', 'approved']).order_by('-claimed_at')
+    
+    return render(request, 'listings/donor_dashboard.html', {
+        'listings': listings, 
+        'pending_claims': pending_claims,
+        'history_claims': history_claims
+    })
 
 @login_required
 def claim_listing(request, listing_id):
     listing = get_object_or_404(Listing, id=listing_id)
     if request.method == 'POST':
         # Create claim with default status 'pending'
-        # Do NOT mark listing as 'claimed' yet. Wait for donor approval.
         Claim.objects.create(listing=listing, claimant=request.user)
         return redirect('claimant_dashboard')
     return render(request, 'listings/claim_confirm.html', {'listing': listing})
 
 @login_required
 def approve_claim(request, claim_id):
-    claim = get_object_or_404(Claim, id=claim_id)
-    if request.user == claim.listing.donor:
-        claim.status = 'approved'
-        claim.save()
-        
-        # Now mark the listing as claimed so it disappears from the dashboard
-        listing = claim.listing
-        listing.status = 'claimed'
-        listing.save()
-        
-        # Optional: Reject other pending claims for this listing?
-        # For simple MVP, we leave them or logic to handle multiple claims later.
-        
-    return redirect('donor_dashboard')
-
-@login_required
-def complete_claim(request, claim_id):
+    # Single step approval: Pending -> Completed
     claim = get_object_or_404(Claim, id=claim_id)
     if request.user == claim.listing.donor:
         claim.status = 'completed'
         claim.save()
-        claim.listing.status = 'completed'
-        claim.listing.save()
+        
+        # Mark listing as completed
+        listing = claim.listing
+        listing.status = 'completed'
+        listing.save()
+        
     return redirect('donor_dashboard')
+
+@login_required
+def reject_claim(request, claim_id):
+    claim = get_object_or_404(Claim, id=claim_id)
+    if request.user == claim.listing.donor:
+        claim.status = 'rejected'
+        claim.save()
+        # Listing remains active for others to claim
+    return redirect('donor_dashboard')
+
+# Legacy verify view can be removed or redirected if no longer used
+@login_required
+def complete_claim(request, claim_id):
+    return approve_claim(request, claim_id)
 
 @login_required
 def claimant_dashboard(request):

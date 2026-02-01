@@ -54,7 +54,7 @@
     </div>
     <div class="flex flex-1 justify-end gap-8 items-center">
         <div class="flex items-center gap-3">
-            <span class="text-sm font-semibold">Admin: {{ user.username }}</span>
+            <span class="text-sm font-semibold">Admin: {{user.username}}</span>
             <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
                 <button type="submit"
@@ -191,26 +191,27 @@
                             <div class="flex items-center gap-3">
                                 <div
                                     class="size-10 rounded-lg bg-primary/10 flex items-center justify-center font-bold text-primary">
-                                    {{ user.username|slice:":1"|upper }}
+                                    {% with initial=user.username|slice:":1"|upper %}{{initial}}{% endwith %}
                                 </div>
                                 <div>
-                                    <p class="font-bold">{{ user.username }}</p>
-                                    <p class="text-xs text-[#4c9a4c]">{{ user.location|default:"Mumbai" }}</p>
+                                    <p class="font-bold">{{user.username}}</p>
+                                    <p class="text-xs text-[#4c9a4c]">
+                                        {% with loc=user.location|default:"Mumbai" %}{{loc}}{% endwith %}
+                                    </p>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-5">
                             <span
-                                class="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-xs font-bold uppercase">{{
-                                user.role }}</span>
+                                class="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-xs font-bold uppercase">{{user.role}}</span>
                         </td>
                         <td class="px-6 py-5">
                             <div class="flex flex-col gap-1 w-24">
                                 <div class="h-1.5 w-full bg-primary/20 rounded-full overflow-hidden">
-                                    <div class="h-full bg-primary" style="width: {{ user.trust_score|default:0 }}%;">
-                                    </div>
+                                    <div class="h-full bg-primary trust-score-bar"
+                                        data-width="{{user.trust_score|default:0}}%"></div>
                                 </div>
-                                <p class="text-[10px] font-bold">{{ user.trust_score }}%</p>
+                                <p class="text-[10px] font-bold">{{user.trust_score}}%</p>
                             </div>
                         </td>
                         <td class="px-6 py-5 text-right">
@@ -228,4 +229,14 @@
         </div>
     </div>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const bars = document.querySelectorAll('.trust-score-bar');
+        bars.forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            bar.style.width = width;
+        });
+    });
+</script>
 {% endblock %}

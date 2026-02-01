@@ -24,8 +24,11 @@
                         {{ listing.get_food_type_display }}
                     </h3>
                     <p class="text-sm font-bold text-gray-500 uppercase tracking-wider">
-                        Donor: <span class="text-primary">{{
-                            listing.donor.institution_name|default:listing.donor.username }}</span>
+                        Donor: <span class="text-primary">
+                            {% with donor_name=listing.donor.institution_name|default:listing.donor.username %}
+                            {{ donor_name }}
+                            {% endwith %}
+                        </span>
                     </p>
                 </div>
                 <div
